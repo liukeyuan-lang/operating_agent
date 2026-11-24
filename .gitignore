@@ -1,0 +1,25 @@
+__pycache__/
+*.pyc
+data/*.lock
+data/*.tmp
+data/*.bak
+tmp/
+.env
+data/server.*
+node_modules/
+.venv/
+data/browser-profile/
+data/browser-output/
+data/browser-probes/
+
+data/
+
+# Local settings, secrets, and generated files
+.env.*
+!.env.example
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+dist/
+build/

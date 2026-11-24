@@ -1,0 +1,16 @@
+{
+  "name": "operating_agent-browser",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared Playwright MCP browser for file-based creative opportunity workflows",
+  "engines": {"node": ">=22"},
+  "scripts": {
+    "browser": "node browser.mjs serve",
+    "browser:doctor": "node browser.mjs doctor",
+    "browser:tools": "node browser.mjs tools"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "@playwright/mcp": "0.0.84"
+  }
+}

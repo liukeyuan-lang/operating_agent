@@ -1,0 +1,22 @@
+{
+  "project": {
+    "id": "my-creative-project",
+    "name": "新探索",
+    "description": "1. 非排他性的共创计划\n2. 正在开放的",
+    "source_url": "",
+    "tags": [],
+    "goals": []
+  },
+  "team": {
+    "country": null,
+    "city": null,
+    "applicant_type": null,
+    "budget_cny": null,
+    "name": null,
+    "nationality": null,
+    "minimum_age": null,
+    "can_travel": null,
+    "notes": null
+  },
+  "assets": []
+}

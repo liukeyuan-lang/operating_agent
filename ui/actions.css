@@ -1,0 +1,16 @@
+.action-card{background:#fff;border:1px solid #d9e0ce;border-left:4px solid #718959;border-radius:9px;padding:23px 26px;margin-bottom:16px}
+.action-card.deferred{opacity:.7;border-left-color:#b3bba9}
+.action-card h2{font-size:20px;line-height:1.6;margin:12px 0 16px;font-weight:600}
+.action-fields{display:grid;grid-template-columns:82px minmax(0,1fr);gap:10px 15px;font-size:12px;margin:0}
+.action-fields dt{color:#8b967c}.action-fields dd{margin:0;color:#536448}.action-fields small{font-size:10px;color:#97a187}
+.action-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #edf0e6;padding-top:15px;margin-top:18px;font-size:11px;color:#8a977d}
+details>summary{cursor:pointer;font-size:12px;font-weight:600;color:#687b53;line-height:1.8}
+details[open]>summary{margin-bottom:17px}.plan-assessment{margin-top:22px;color:#859176;font-size:12px}
+.assessment-row{border-bottom:1px solid #edf0e6;padding:13px 0}.assessment-row strong{font-weight:500;margin-right:12px}.assessment-row p{margin:7px 0}
+.exploration-details{background:transparent;margin-top:26px}.exploration-details>summary{font-weight:500}
+.exploration-details .panel{margin-top:16px}.prepared-copy{white-space:pre-wrap;background:#f0f3e9;border:1px solid #e3e9d9;padding:16px;border-radius:7px;font-size:13px;line-height:1.9;color:#526746}
+.detail-section h4{font-size:12px;font-weight:500;margin:18px 0 8px}.plain-list{padding-left:20px;color:#708260;font-size:12px}.plain-list li{padding:4px 0}
+.asset-video{display:block;width:100%;max-height:340px;background:#1b211c;border-radius:6px;margin-top:12px;object-fit:contain}
+.file-locator{overflow-wrap:anywhere;word-break:break-word;font-size:11px!important}.detail-section .source-card{margin:12px 0}
+.plan-scope summary{font-size:11px;font-weight:400;color:#928265}.plan-scope[open]>summary{margin-bottom:8px}.plan-scope p{margin:0;font-size:11px}
+@media(max-width:700px){.action-card{padding:17px 16px}.action-card h2{font-size:17px}.action-fields{grid-template-columns:65px minmax(0,1fr);gap:10px;font-size:11px}.action-foot{gap:12px}.hero h1{font-size:25px}.exploration-details{padding:16px}.action-fields small{display:block}.topbar .text-action{display:none}}

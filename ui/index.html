@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>探索合作和活动机会</title>
+  <meta name="description" content="发现有流量扶持、现金激励及合作价值的候选机会，并按证据评分排序。">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/actions.css">
+  <link rel="stylesheet" href="/publishing.css">
+  <link rel="stylesheet" href="/directory-picker.css">
+  <script src="/publishing.js" defer></script>
+  <script src="/materials.js" defer></script>
+  <script src="/discovery.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="workspace-switch" href="/">← 创作工作台</a><div class="workspace-name">探索合作和活动机会</div>
+    <div class="project-label">当前项目</div>
+    <div class="project-name" id="sidebar-project">我的创作项目</div>
+    <nav aria-label="主导航">
+      <button data-tab="opportunities" class="nav active"><span>✓</span>候选机会<b id="nav-items">0</b><i id="running-dot"></i></button>
+      <button data-tab="assets" class="nav"><span>▣</span>素材库</button>
+      <button data-tab="leads" class="nav"><span>▤</span>线索库<b id="nav-leads">0</b></button>
+      <button data-tab="sources" class="nav"><span>◎</span>同行与来源<b id="nav-peers">0</b></button>
+      <button data-tab="platforms" class="nav"><span>⇄</span>平台与观察</button>
+      <button data-tab="history" class="nav"><span>↶</span>探索记录</button>
+    </nav>
+    <div class="side-bottom"><span class="connection-dot"></span><span id="connection">连接本地记录中</span><p>一点点发现，持续积累。<br>保留线索，也保留判断的依据。</p><a href="/api/export.json" download="探索记录.json">下载完整记录 ↗</a></div>
+  </aside>
+  <main>
+    <div class="topbar"><div>工作空间 <span>/</span> <strong id="page-name">探索工作台</strong></div><div class="top-actions"><a class="text-action" href="/api/candidates.csv" download="候选机会.csv">↓ 导出候选机会</a><button class="button primary" id="new-run">＋ 开始一轮探索</button></div></div>
+    <div class="project-switch"><label for="project-picker">探索项目</label><select id="project-picker" aria-label="切换探索项目"></select><span id="project-run-count"></span></div>
+    <div id="content" aria-live="polite"></div>
+    <footer><span id="updated-at"></span><span>收集、判断与准备 · 发布、报名和对外联系须确认</span></footer>
+  </main>
+  <dialog id="new-dialog">
+    <form id="request-form"><div class="dialog-head"><span class="eyebrow">从目标机会出发</span><button type="button" class="icon-button" data-close="new-dialog" aria-label="关闭">×</button></div><h2>继续探索，或新建项目。</h2>
+      <p>描述想找到什么样的机会。种子词作为搜索起点，Agent 会沿新线索继续探索。</p>
+      <div class="mode-choices"><label><input type="radio" name="mode" value="continue" checked>继续已有项目</label><label><input type="radio" name="mode" value="new">新建探索项目</label></div>
+      <div id="existing-project-field"><label for="request-project">选择已有项目</label><select id="request-project" name="project_id"></select><p>继承这个项目的结果、线索、同行和历史判断，适合每周继续探索。</p></div>
+      <label for="project-name-input">项目名称</label><input id="project-name-input" type="text" name="name" value="新探索" required maxlength="150" placeholder="例如：AI创作者合作机会">
+      <label for="project-requirements">探索要求</label><textarea id="project-requirements" name="exploration_requirements" required maxlength="10000">1. 非排他性的共创计划
+2. 正在开放的</textarea>
+      <label for="request-seeds">种子搜索词（每行一个，可修改）</label><textarea id="request-seeds" name="seed_keywords" maxlength="10000">tripo 创作
+即梦 创作
+可灵 创作
+AI创作者计划
+AI创作大赛</textarea><p>起始关键词不是固定任务清单。可留空，由 Agent 结合已有来源选择入口。</p>
+      <details><summary>团队基本信息（可选）</summary><fieldset><legend>用于核对资格</legend><p>不确定的留空，不要求上传素材。</p>
+      <label for="team-name">团队名称</label><input id="team-name" name="team_name" maxlength="200">
+      <label for="team-applicant">报名主体</label><select id="team-applicant" name="team_applicant_type"><option value="">尚未确定</option><option value="individual">个人</option><option value="team">创作团队</option><option value="company">公司/机构</option><option value="student">在校学生</option></select>
+      <label for="team-country">所在国家/地区</label><input id="team-country" name="team_country" maxlength="100">
+      <label for="team-city">城市</label><input id="team-city" name="team_city" maxlength="100">
+      <label for="team-nationality">成员国籍（可选）</label><input id="team-nationality" name="team_nationality" maxlength="200">
+      <label for="team-age">最年轻成员年龄（周岁，可选）</label><input id="team-age" name="team_minimum_age" type="number" min="0" max="120">
+      <label for="team-budget">单次机会总预算（人民币元）</label><input id="team-budget" name="team_budget_cny" type="number" min="0" step="0.01">
+      <label for="team-travel">线下到场能力</label><select id="team-travel" name="team_can_travel"><option value="">尚未确定</option><option value="none">无法到场</option><option value="domestic">可国内出行</option><option value="international">可国内及海外出行</option></select>
+      <label for="team-notes">其他资格或限制（可选）</label><textarea id="team-notes" name="team_notes" maxlength="2000" placeholder="例如学生身份、特殊资格；不要填写证件号码"></textarea></fieldset></details>
+      <fieldset><legend>这轮探索的平台</legend><div id="request-platforms" class="mode-choices"></div><p>“网页搜索”可单独勾选，通过搜索引擎、官网及公开网站发现机会。继承项目历史，分别保存来源证据；关键词由 Agent 选择。官方核验仍可访问官网。</p></fieldset>
+      <label for="request-max-searches">最多搜索次数</label><input id="request-max-searches" name="max_searches" type="number" min="1" step="1" value="50" required><p>只限制发起搜索的总次数，不限制整轮用时、正文阅读、同行／来源检查或官方公告阅读数量。达到搜索上限后，仍可读取和核验已发现的内容。</p>
+      <div class="hint">Agent 根据线索价值决定是否继续搜索，最多搜索次数是上限，不是必须凑满的目标。当前由 Codex 执行，网页保存任务和进度。</div>
+      <button type="submit" class="button primary wide">保存探索任务</button><div id="request-success" role="status"></div>
+      <section id="request-prompt-panel" class="request-prompt-panel" hidden aria-labelledby="request-prompt-heading">
+        <div class="section-heading"><h3 id="request-prompt-heading">到 Codex 中开始探索</h3><button type="button" class="button primary small" id="copy-exploration-prompt">复制提示词</button></div>
+        <p>复制下面的完整提示词，粘贴到打开此项目的 Codex 会话中发送即可。</p>
+        <label for="request-prompt">给 Codex 的提示词</label><textarea id="request-prompt" readonly spellcheck="false" rows="10"></textarea>
+        <p id="request-copy-status" role="status" aria-live="polite"></p>
+      </section>
+    </form>
+  </dialog>
+  <dialog id="lead-dialog"><form id="lead-form">
+    <div class="dialog-head"><span class="eyebrow">为下一轮搜索补充入口</span><button type="button" class="icon-button" data-close="lead-dialog" aria-label="关闭">×</button></div>
+    <h2>手动添加线索</h2><p>名字、关键词或链接都可以，不需要先找到可参加的活动。</p>
+    <label for="lead-kind">线索类型</label><select id="lead-kind" name="kind"></select>
+    <label for="lead-title">名称</label><input id="lead-title" name="title" required maxlength="200" placeholder="例如：创作者、艺术社区或一个创作话题">
+    <label for="lead-target">搜索对象或公开链接（可选）</label><input id="lead-target" name="target" maxlength="4000" placeholder="留空则搜索上面的名称">
+    <label for="lead-platform">优先搜索的平台</label><select id="lead-platform" name="platform"><option value="">根据链接识别 / 网页</option><option value="xiaohongshu">小红书</option><option value="douyin">抖音</option></select>
+    <label for="lead-reason">为什么有助于发现好机会</label><textarea id="lead-reason" name="reason" required maxlength="2000" placeholder="与项目的关系、想进一步了解什么"></textarea>
+    <label for="lead-next">下一步怎么探索（可选）</label><textarea id="lead-next" name="next_step" maxlength="2000" placeholder="例如：查看其近期合作机构，再找这些机构的征集"></textarea>
+    <button type="submit" class="button primary wide">加入线索库</button>
+  </form></dialog>
+  <dialog id="source-dialog"><form id="source-form">
+    <div class="dialog-head"><span class="eyebrow">积累长期信息源</span><button type="button" class="icon-button" data-close="source-dialog" aria-label="关闭">×</button></div>
+    <h2>加入观察清单</h2><p>建立内部观察记录，不会操作账号关注。</p>
+    <label for="source-name">名称</label><input id="source-name" name="name" required maxlength="150">
+    <label for="source-url">公开主页链接</label><input id="source-url" name="url" type="url" required>
+    <label for="source-role">来源类型</label><select id="source-role" name="role"><option value="peer">创作同行</option><option value="organizer">主办机构</option><option value="information">信息聚合来源</option></select>
+    <label for="source-reason">为什么值得观察</label><textarea id="source-reason" name="reason" required maxlength="1000"></textarea>
+    <button type="submit" class="button primary wide">加入清单</button>
+  </form></dialog>
+  <dialog id="library-dialog"><form id="library-form">
+    <div class="dialog-head"><span class="eyebrow">所有探索项目共用</span><button type="button" class="icon-button" data-close="library-dialog" aria-label="关闭素材库">×</button></div>
+    <h2>添加素材包</h2><p>素材只用于评估机会的匹配程度和优先级，探索项目无需绑定素材。</p>
+    <label for="library-name">素材包名称（可选）</label><input id="library-name" name="name" maxlength="200" placeholder="留空时根据素材理解命名">
+    <button type="button" class="button" id="pick-library-directory">选择素材目录</button><div id="library-directory" class="picked-files">尚未选择素材目录</div>
+    <p>支持常见图片、音视频、GLB 2.0、PDF、文本及DOCX/PPTX/XLSX。由 gemini-3.8-flash 逐文件理解；素材发往已配置的模型中转站（默认 api.gpt.ge），但GLB只发送本机提取的有界JSON结构证据，不上传原始GLB或读取BIN/外部URI。音视频按时长与体积切片，长文本分段、TIFF逐页，Office提取文字（不含图片图表）。已完成部分复用缓存，原文件保留原位。</p><p class="material-compression-note">大视频额外压缩默认关闭，可通过启动开关开启。</p>
+    <p class="material-timeout-note"></p>
+    <button type="submit" class="button primary wide" data-material-start>理解并加入素材库</button><button type="submit" class="button primary wide" data-material-retry="true" hidden>重试素材理解</button><div id="library-status" role="status"></div>
+  </form></dialog>
+  <dialog id="detail-dialog" class="detail-dialog"><div id="detail-content"></div></dialog>
+  <div id="toast" role="status" class="toast" hidden></div>
+</body>
+</html>

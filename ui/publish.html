@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>准备发布包</title>
+  <meta name="description" content="理解整组创作素材，准备文案、封面与发布包。">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/actions.css">
+  <link rel="stylesheet" href="/publishing.css">
+  <link rel="stylesheet" href="/directory-picker.css">
+  <script src="/publishing.js" defer></script>
+  <script src="/materials.js" defer></script>
+  <script src="/discovery.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="workspace-switch" href="/">← 创作工作台</a><div class="workspace-name">准备发布包</div>
+    <div class="project-label">当前项目</div>
+    <div class="project-name" id="sidebar-project">我的创作项目</div>
+    <nav aria-label="主导航">
+      <button data-tab="publishing" class="nav active"><span>▧</span>发布包<b id="nav-publications">0</b></button>
+      <button data-tab="assets" class="nav"><span>▣</span>素材与理解</button>
+    </nav>
+    <div class="side-bottom"><span class="connection-dot"></span><span id="connection">连接本地记录中</span><p>从素材到发布材料。<br>文案、封面与账号逐版确认。</p><a href="/api/export.json" download="项目记录.json">下载完整记录 ↗</a></div>
+  </aside>
+  <main>
+    <div class="topbar"><div>工作空间 <span>/</span> <strong id="page-name">发布准备</strong></div><div class="top-actions"><a class="text-action" href="/api/export.csv" download="全部记录.csv">↓ 导出项目记录</a><button class="button primary" id="new-run">＋ 创建发布项目</button></div></div>
+    <div class="project-switch"><label for="project-picker">发布项目</label><select id="project-picker" aria-label="切换发布项目"></select><span id="project-run-count"></span></div>
+    <div id="content" aria-live="polite"></div>
+    <footer><span id="updated-at"></span><span>整理素材、文案与封面 · 正式发布须确认</span></footer>
+  </main>
+  <dialog id="publishing-project-dialog"><form id="publishing-project-form">
+    <div class="dialog-head"><span class="eyebrow">从整组素材开始</span><button type="button" class="icon-button" data-close="publishing-project-dialog" aria-label="关闭">×</button></div>
+    <h2>创建发布项目</h2><p>只需选择素材目录。名称和描述留空时，由Agent根据Gemini的素材理解补齐。</p>
+    <label>素材目录</label><button type="button" class="button" id="pick-publishing-directory">选择素材目录</button><div id="publishing-directory" class="picked-files">尚未选择素材目录</div>
+    <p>支持常见图片、音视频、GLB 2.0、PDF、文本及DOCX/PPTX/XLSX。素材发往已配置的模型中转站（默认 api.gpt.ge），由gemini-3.8-flash逐文件理解后综合整组；GLB只发送本机提取的有界JSON结构证据，不上传原始GLB或读取BIN/外部URI。音视频按最长5分钟与体积上限切片；长文本分段、TIFF逐页，Office提取文字（不含图片图表）。已完成部分复用缓存，原文件保留原位。</p><p class="material-compression-note">大视频额外压缩默认关闭，可通过启动开关开启。</p>
+    <label for="publishing-project-name">项目名称（选填）</label><input id="publishing-project-name" name="name" maxlength="200" placeholder="留空，根据素材自动生成">
+    <label for="publishing-project-description">项目描述（选填）</label><textarea id="publishing-project-description" name="description" maxlength="10000" placeholder="留空，根据素材自动生成"></textarea>
+    <p class="material-timeout-note"></p>
+    <button type="submit" class="button primary wide" data-material-start>理解素材并创建项目</button><button type="submit" class="button primary wide" data-material-retry="true" hidden>重试素材理解</button><div id="publishing-project-status" class="material-status" role="status"></div>
+  </form></dialog>
+  <dialog id="detail-dialog" class="detail-dialog"><div id="detail-content"></div></dialog>
+  <div id="toast" role="status" class="toast" hidden></div>
+</body>
+</html>

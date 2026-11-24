@@ -1,0 +1,3 @@
+# Audio/video clips and local image-format conversion.
+imageio-ffmpeg==0.6.0
+Pillow==12.0.0

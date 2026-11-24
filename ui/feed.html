@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>候选机会</title>
+  <link rel="stylesheet" href="/homefeed.css">
+  <link rel="stylesheet" href="/directory-picker.css">
+  <script src="/materials.js" defer></script><script src="/homefeed.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar"><nav aria-label="主导航">
+    <button class="nav active" data-tab="opportunities" aria-current="page">候选机会 <span id="candidate-count">0</span></button>
+    <button class="nav" data-tab="assets">素材库</button>
+  </nav><div class="connection" id="connection">连接中</div></aside>
+  <main>
+    <header><h1 id="page-title">候选机会</h1><div class="header-actions"><a id="export-html" href="/api/homefeed/html" download>导出网页</a><a id="export-report" href="/api/homefeed/report" download="首页探索记录.md">导出记录</a><button class="button primary" id="new-session">开始探索</button></div></header>
+    <div class="project-bar"><label for="project-picker">探索项目</label><select id="project-picker" aria-label="切换探索项目"></select></div>
+    <div id="load-error" class="error" role="alert" hidden></div><div id="content"></div>
+  </main>
+  <dialog id="session-dialog"><form id="session-form">
+    <div class="dialog-head"><h2>小红书首页探索</h2><button type="button" class="icon-button" data-close="session-dialog" aria-label="关闭">×</button></div>
+    <div class="mode-choices"><label><input type="radio" name="mode" value="new" checked>新建项目</label><label><input type="radio" name="mode" value="continue">继续旧项目</label></div>
+    <div id="session-existing-field" hidden><label for="session-project">选择项目</label><select id="session-project" name="project_id"></select></div>
+    <label for="session-name">项目名称</label><input id="session-name" name="name" maxlength="150" value="新探索" placeholder="新探索">
+    <label for="session-preferences">偏好方向（选填）</label><textarea id="session-preferences" name="preferences" maxlength="10000" rows="3" placeholder="例如：偏好有流量扶持、现金激励的 AI 视频共创"></textarea>
+    <details class="weight-settings"><summary>评分权重</summary><div class="weight-grid">
+      <label>流量扶持<input name="weight_traffic" type="number" min="0" max="100" step="1" value="30" required></label>
+      <label>现金激励<input name="weight_cash" type="number" min="0" max="100" step="1" value="25" required></label>
+      <label>商业合作<input name="weight_commercial" type="number" min="0" max="100" step="1" value="20" required></label>
+      <label>曝光增长<input name="weight_exposure" type="number" min="0" max="100" step="1" value="15" required></label>
+      <label>用户偏好<input name="weight_preferences" type="number" min="0" max="100" step="1" value="10" required></label>
+    </div><p id="session-weight-total" class="muted">总和 100 / 100</p></details>
+    <div id="session-pack-list"></div>
+    <div class="directory-actions"><button type="button" class="button" id="pick-session-directory">选择素材目录（可选）</button><button type="button" class="button small" id="clear-session-directory" hidden>移除</button></div><div id="session-directory" class="picked-files"></div>
+    <label class="check"><input type="checkbox" name="login_confirmed" required checked>已在 Playwright 专用浏览器登录所需的小红书账号</label>
+    <button class="button primary" type="submit" data-material-start>保存并获取执行提示词</button><button class="button primary" type="submit" data-material-retry="true" hidden>重试素材理解并保存</button>
+    <div id="session-error" class="error" role="status"></div>
+  </form></dialog>
+  <dialog id="prompt-dialog"><div class="dialog-head"><h2>到 Codex 中执行</h2><button type="button" class="icon-button" data-close="prompt-dialog" aria-label="关闭">×</button></div>
+    <label for="execution-prompt">执行提示词</label><textarea id="execution-prompt" readonly rows="10"></textarea><button class="button primary" id="copy-prompt">复制提示词</button><p id="copy-status" class="muted" role="status"></p>
+  </dialog>
+  <dialog id="library-dialog"><form id="library-form">
+    <div class="dialog-head"><h2>添加素材包</h2><button type="button" class="icon-button" data-close="library-dialog" aria-label="关闭素材库">×</button></div>
+    <label for="library-name">名称（选填）</label><input id="library-name" name="name" maxlength="200">
+    <button type="button" class="button" id="pick-library-directory">选择素材目录</button><div id="library-directory" class="picked-files">尚未选择素材目录</div>
+    <details><summary>素材理解说明</summary><p>Gemini 逐文件理解图片、音视频和文档，素材发往已配置的模型中转站（默认 api.gpt.ge）；GLB 2.0只发送本机提取的有界JSON结构证据，不上传GLB原文件、BIN块或外部URI。同组素材复用缓存，原文件保留；素材不参与机会探索或评分。</p><p class="material-timeout-note"></p></details>
+    <button type="submit" class="button primary" data-material-start>理解并加入素材库</button><button type="submit" class="button primary" data-material-retry="true" hidden>重试素材理解</button><div id="library-status" role="status"></div>
+  </form></dialog>
+  <div id="toast" role="status" hidden></div>
+</body></html>
